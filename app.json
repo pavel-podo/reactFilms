@@ -1,0 +1,41 @@
+{
+  "expo": {
+    "name": "Find your show",
+    "slug": "films",
+    "privacy": "public",
+    "version": "1.0.0",
+    "orientation": "portrait",
+    "icon": "./assets/Television-icon.png",
+    "splash": {
+      "image": "./assets/Television-icon.png",
+      "resizeMode": "contain",
+      "backgroundColor": "#c2dbd8"
+    },
+    "updates": {
+      "fallbackToCacheTimeout": 0
+    },
+    "assetBundlePatterns": [
+      "**/*"
+    ],
+    "ios": {
+      "supportsTablet": true
+    },
+    "android": {
+      "package": "com.pavel_po.find_your_show",
+      "versionCode": 1,
+      "adaptiveIcon": {
+        "foregroundImage": "./assets/Television-icon.png",
+        "backgroundColor": "#FFFFFF"
+      },
+      "permissions": []
+    },
+    "web": {
+      "favicon": "./assets/favicon.png"
+    },
+    "extra": {
+      "eas": {
+        "projectId": "ab4840fa-eacf-4691-a522-6f54f9501dc8"
+      }
+    }
+  }
+}
