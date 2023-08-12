@@ -5,7 +5,7 @@ import { URL, URLSearchParams } from 'react-native-url-polyfill'
 
 import { SVGnoImg, SVGnoPhoto } from '../SVGnoImg'
 import Flag from 'react-native-flags'
-import {bgC, titleC, textC} from '../../data/const'
+import { bgC, titleC, textC } from '../../data/const'
 import PrintLink from '../PrintLink'
 import showAlert from '../showAlert'
 
@@ -29,7 +29,6 @@ export default function Description({ route, navigation }) {
     useEffect(() => {
         fetch('http://api.tvmaze.com/shows/' + itemId + '?embed=cast')
             .then((response) => {
-                console.log(response)
                 return response.json();
             })
             .then((data) => {
@@ -39,20 +38,20 @@ export default function Description({ route, navigation }) {
     }, [])
     return (
         <View style={styles.container}
-        keyboardShouldPersistTaps='handled'>
+            keyboardShouldPersistTaps='handled'>
             {isLoading ? <ActivityIndicator /> : (
                 <ScrollView style={styles.scroll}>
                     {film.image ?
                         <Image
                             source={{ uri: film.image.medium }}
                             style={styles.poster}
-                        /> : 
+                        /> :
                         <View style={styles.moImWrapper}>
-                        <SVGnoImg
-                        style={styles.poster}
-                        ></SVGnoImg>
+                            <SVGnoImg
+                                style={styles.poster}
+                            ></SVGnoImg>
                         </View>
-                    } 
+                    }
                     <View style={styles.contentWrapper}>
                         <Text style={styles.title}>
                             {film.name}
@@ -93,16 +92,17 @@ export default function Description({ route, navigation }) {
                         <View style={
                             {
                                 width: contentW,
-                                marginHorizontal:'auto',
+                                marginHorizontal: 'auto',
+                                marginBottom:40,
                             }
                         }>
                             <Text style={styles.title}>Cast</Text>
-                            <FlatList
-                                style={{ marginBottom: 12 }}
-                                data={film._embedded.cast}
-                                keyExtractor={(item) => item.person.id.toString()}
-                                renderItem={({ item }) =>
-                                    <View style={styles.castItem}>
+                            {
+                               film._embedded.cast.map((item) =>
+                                    <View 
+                                    style={styles.castItem}
+                                    key={ item.person.id.toString()}
+                                    >
                                         <View style={styles.avatar}>
                                             {item.person.image ?
                                                 <View>
@@ -128,9 +128,9 @@ export default function Description({ route, navigation }) {
                                         </View>
 
                                     </View>
-                                }
-                            >
-                            </FlatList>
+                                    )
+                            }
+                            
                         </View> : false}
                 </ScrollView>
             )}
@@ -154,12 +154,10 @@ const styles = StyleSheet.create({
     },
     scroll: {
         paddingHorizontal: 10,
-        paddingVertical: 25,
- 
-
+        paddingVertical: 37,
     },
     contentWrapper: {
-        paddingBottom:12,
+        paddingBottom: 12,
         width: contentW,
         marginHorizontal: 'auto',
     },
@@ -215,13 +213,51 @@ const styles = StyleSheet.create({
     selfTitle: {
         color: textC,
     },
-    moImWrapper:{
-        width:'100%',
-        height:'40%',
-        justifyContent:'center',
-        alignItems:'center',
-        marginHorizontal:'auto',
+    moImWrapper: {
+        width: '100%',
+        height: '40%',
+        justifyContent: 'center',
+        alignItems: 'center',
+        marginHorizontal: 'auto',
 
 
     }
 });
+
+
+/**
+ *  <FlatList
+                                style={{ marginBottom: 40 }}
+                                data={film._embedded.cast}
+                                keyExtractor={(item) => item.person.id.toString()}
+                                renderItem={({ item }) =>
+                                    <View style={styles.castItem}>
+                                        <View style={styles.avatar}>
+                                            {item.person.image ?
+                                                <View>
+                                                    <Image
+                                                        source={{ uri: item.person.image.medium }}
+                                                        style={styles.photo}
+                                                    />
+                                                </View >
+                                                : <View style={styles.photo}>
+                                                    <SVGnoPhoto style={styles.photo}></SVGnoPhoto>
+                                                </View>
+                                            }
+                                        </View>
+                                        <View style={styles.nameSelf}>
+                                            <Text style={styles.nameTitle}>{item.person.name}</Text>
+                                            <Text style={styles.selfTitle} >{item.character.name}</Text>
+                                        </View>
+                                        <View style={styles.personLink}>
+                                            <TouchableOpacity
+                                                onPress={() => showAlert(item.person.url)}>
+                                                <Feather name="external-link" size={24} color={titleC} />
+                                            </TouchableOpacity>
+                                        </View>
+
+                                    </View>
+                                }
+                            >
+                            </FlatList>
+ */
